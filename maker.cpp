@@ -340,7 +340,7 @@ void character::special()
 		}
 		break;
 	case 2:
-		cout << "1.冲锋-3：九章立即冲锋5格\n";
+		cout << "1.冲锋-3：九章驱散【粘滞】并立即冲锋5格\n";
 		cout << "2.泰山压顶-5: 九章扑倒半径1格以内的一个敌人，对其施加2回合眩晕\n";
 		cout << "3.重拳-7：九章向敌方打出一记威力爆炸的重拳\n";
 		if (sp >= 3)
@@ -365,6 +365,7 @@ void character::special()
 				return;
 			}
 			sp -= 3;
+			effect[8] = 0;
 			move(5);
 			if (card.count(11))
 			{
@@ -379,7 +380,7 @@ void character::special()
 				cout << "不合法哦~。" << "\n";
 				return;
 			}
-			sp -= 3;
+			sp -= 5;
 			cur = attack();
 			info[cur].effect[1] += 2;
 			if (card.count(12))
@@ -398,15 +399,15 @@ void character::special()
 			break;
 		}
 	case 3:
-		cout << "1.地瓜补给-3：向队友和敌人投掷特殊地瓜(爆炸地瓜、发芽地瓜、熟地瓜、甜地瓜)，分别造成爆炸伤害、【中毒】状态、【生命恢复】、【锋锐】\n";
-		cout << "2.泰山压顶-5: 九章扑倒半径1格以内的一个敌人，对其施加2回合眩晕\n";
-		cout << "3.重拳-7：九章向敌方打出一记威力爆炸的重拳\n";
+		cout << "1.地瓜补给-3：向队友和敌人投掷特殊地瓜(爆炸地瓜、发芽地瓜、熟地瓜、甜地瓜)，分别造成爆炸伤害、【虚弱】【脆弱】、【生命恢复】、【锋利】\n";
+		cout << "2.地瓜泥-5: 形成一片半径为2的地瓜泥，对打击范围内的|所有人|造成2回合【粘滞】状态\n";
+		cout << "3.巨瓜天降-7：扔出一个巨大的爆炸地瓜\n";
 		if (sp >= 3)
-			able.insert("1.冲锋");
+			able.insert("1.地瓜补给");
 		if (sp >= 5)
-			able.insert("2.泰山压顶");
-		if (sp >= 7 && hp > 100)
-			able.insert("3.重拳");
+			able.insert("2.地瓜泥");
+		if (sp >= 7)
+			able.insert("3.巨瓜天降");
 		cout << "目前能量有" << sp << "点，可选择的有：\n";
 		for (auto i : able)
 		{
@@ -423,13 +424,17 @@ void character::special()
 				return;
 			}
 			sp -= 3;
-			move(5);
-			if (card.count(11))
-			{
-				current = explode(x, y, 0, 1);
-				for (auto i : current)
-					info[i].effect[1]++;
-			}
+			cur = attack(3);
+			if(randint(0,1))
+				if(info[cur].Getteam() != team)
+					explod(info[cur].x,info[cur].y,atk*(card.count(17) ? atknum + 0.5 : atknum),1);
+				else
+					info[cur].effect[2]+= (card.count(17) ? 3 : 2);
+			else
+				if(info[cur].Getteam() != team)
+					info[cur].effect[4]+= 2,info[cur].effect[6]+= (card.count(17) ? 3 : 2);
+				else
+					info[cur].effect[5]+= (card.count(17) ? 3 : 2);
 			break;
 		case 2:
 			if (sp < 5)
@@ -437,11 +442,13 @@ void character::special()
 				cout << "不合法哦~。" << "\n";
 				return;
 			}
-			sp -= 3;
-			cur = attack();
-			info[cur].effect[1] += 2;
-			if (card.count(12))
-				info[cur].effect[1]++;
+			sp -= 5;
+			cout << "请输入地瓜泥的圆心坐标:(x y)\n";
+			int x,y;
+			cin>>x>>y;
+			auto g = explode(x,y,0,2);
+			for(auto i:g)
+				info[i].effect[8]+=(card.count(16) ? 3 : 2);
 			break;
 		case 3:
 			if (sp < 7)
@@ -450,11 +457,33 @@ void character::special()
 				return;
 			}
 			sp -= 7;
-			cur = attack();
-			info[cur].effect[1] += 1;
-			info[cur].gethurt(atk * atknum * 2 * (card.count(13) ? 1.5 : 0.5));
+			cout << "请输入巨型爆炸地瓜的坐标:(x y)\n";
+			int x,y;
+			cin>>x>>y;
+			auto g = explode(x,y,atk * (card.count(18) ? atknum + 0.5 : atknum) + 25,2);
 			break;
 		}
+
+	case 10:
+		if(sp>=2)
+		{
+			cout << "急速拉弓-2：立刻进行三次普攻";
+			sp -= 2;
+			attack();
+			attack();
+			attack();
+		}
+		else
+			return;
+	case 11:
+		if(sp>=3)
+		{
+			cout << "缩头乌龟-3：获得三回合的【顽强】";
+			sp -= 3;
+			effect[3]+=3;
+		}
+		else
+			return;
 	}
 	
 	cout << sleep(1) << '\n';
@@ -675,6 +704,15 @@ void description(int num)
 		break;
 	case 15:
 		cout << "回击：角色受到攻击时，有50%的概率立即获得一次行动的机会。\n";
+		break;
+	case 16:
+		cout << "注胶地瓜：地瓜泥将额外叠加一次迟滞。\n";
+		break;
+	case 17:
+		cout << "优质地瓜：强化地瓜补给的效果。\n";
+		break;
+	case 18:
+		cout << "品种改良：巨瓜天降的攻击系数增加0.5\n";
 		break;
 	}
 	cout << sleep(1) << "\n";
