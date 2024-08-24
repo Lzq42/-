@@ -2,8 +2,8 @@
 using namespace std;
 int w1()
 {
-	cout << "ÐÂÊÖ½Ì³ÌÒÑÏÂ·Åµ½Ò»ÅÔµÄ expre.out ÖÐÁË\n";
-	cout << "Õ½¶·¿ªÊ¼£¡\n";
+	cout << "æ–°æ‰‹æ•™ç¨‹å·²ä¸‹æ”¾åˆ°ä¸€æ—çš„ expre.out ä¸­äº†\n";
+	cout << "æˆ˜æ–—å¼€å§‹ï¼\n";
 	memset(mp, 0, sizeof(mp));
 	queue<int> que;
 	que.push(1);
@@ -26,35 +26,35 @@ int w1()
 		{
 			if (teamcount.count(1))
 			{
-				cout << "Õ½¶·Ê¤Àû£¡\n";
+				cout << "æˆ˜æ–—èƒœåˆ©ï¼\n";
 				return 1;
 			}
 			else
 			{
-				cout << "Õ½¶·Ê§°Ü¡­¡­\n";
+				cout << "æˆ˜æ–—å¤±è´¥â€¦â€¦\n";
 				return 0;
 			}
 			
 		}
-		cout << "¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª\n\n" << character_name(num) << "µÄ»ØºÏ\n";
+		cout << "â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”\n\n" << character_name(num) << "çš„å›žåˆ\n";
 		if(!a && b)
 		{ 
-			cout << character_name(num) << "ÎÞ·¨ÐÐ¶¯£¬±¾»ØºÏÒÑ×Ô¶¯Ìø¹ý¡£\n";
+			cout << character_name(num) << "æ— æ³•è¡ŒåŠ¨ï¼Œæœ¬å›žåˆå·²è‡ªåŠ¨è·³è¿‡ã€‚\n";
 			que.push(num);
 			continue;
 		}
 		if (!b)
 		{
-			cout << character_name(num) << "ÒÑËÀÍö£¡£¡£¡\n";
+			cout << character_name(num) << "å·²æ­»äº¡ï¼ï¼ï¼\n";
 			info.erase(num);
 			continue;
 		}
 		que.push(num);
-		cout << "¿ªÊ¼ÐÐ¶¯°É¡£\n";
+		cout << "å¼€å§‹è¡ŒåŠ¨å§ã€‚\n";
 		bool flag = true;
 		while (flag)
 		{
-			cout << "a.ÐÅÏ¢\n    1.µØÍ¼\n    2.½ÇÉ«\nb.ÐÐ¶¯\n    3.¹¥»÷\n    4.ÒÆ¶¯\n    5.ÐÝí¬\n    6.¼¼ÄÜ\nc.¿¨ÅÆ\n    7.³é¿¨\n";
+			cout << "a.ä¿¡æ¯\n    1.åœ°å›¾\n    2.è§’è‰²\nb.è¡ŒåŠ¨\n    3.æ”»å‡»\n    4.ç§»åŠ¨\n    5.ä¼‘æ†©\n    6.æŠ€èƒ½\nc.å¡ç‰Œ\n    7.æŠ½å¡\n";
 			int act;
 			cin >> act;
 			switch (act)
@@ -62,7 +62,99 @@ int w1()
 			case 1:
 				show_map();
 				cout << endl;
-				cout << "1ÎªÀèÎí\n2Îª¾ÅÕÂ\n";
+				cout << "1ä¸ºé»Žé›¾\n2ä¸ºä¹ç« \n";
+				cout << sleep(1) << '\n';
+				break;
+			case 2:
+				info[num].print();
+				break;
+			case 3:
+				info[num].attack();
+				flag = false;
+				break;
+			case 4:
+				info[num].move();
+				flag = false;
+				break;
+			case 5:
+				info[num].rest();
+				flag = false;
+				break;
+			case 6:
+				info[num].special();
+				flag = false;
+				break;
+			case 7:
+				info[num].card_select();
+				flag = false;
+				break;
+			}
+		}
+	}
+}
+int w2()
+{
+	cout << "æ–°æ‰‹æ•™ç¨‹å·²ä¸‹æ”¾åˆ°ä¸€æ—çš„ expre.out ä¸­äº†\n";
+	cout << "æˆ˜æ–—å¼€å§‹ï¼\n";
+	memset(mp, 0, sizeof(mp));
+	queue<int> que;
+	que.push(1);
+	que.push(2);
+	info[1] = character(1, 5, 5, 1);
+	info[2] = character(2, 4, 5, 2);
+	set<int>teamcount;
+	while (true)
+	{
+		int num = que.front();
+		que.pop();
+		int a = info[num].reflash(), b = info[num].dead();
+		teamcount.clear();
+		for(auto i:info)
+		{
+			if (i.second.Getteam())
+				teamcount.insert(i.second.Getteam());
+		}
+		if (teamcount.size() == 1)
+		{
+			if (teamcount.count(1))
+			{
+				cout << "æˆ˜æ–—èƒœåˆ©ï¼\n";
+				return 1;
+			}
+			else
+			{
+				cout << "æˆ˜æ–—å¤±è´¥â€¦â€¦\n";
+				return 0;
+			}
+			
+		}
+		cout << "â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”\n\n" << character_name(num) << "çš„å›žåˆ\n";
+		if(!a && b)
+		{ 
+			cout << character_name(num) << "æ— æ³•è¡ŒåŠ¨ï¼Œæœ¬å›žåˆå·²è‡ªåŠ¨è·³è¿‡ã€‚\n";
+			que.push(num);
+			continue;
+		}
+		if (!b)
+		{
+			cout << character_name(num) << "å·²æ­»äº¡ï¼ï¼ï¼\n";
+			info.erase(num);
+			continue;
+		}
+		que.push(num);
+		cout << "å¼€å§‹è¡ŒåŠ¨å§ã€‚\n";
+		bool flag = true;
+		while (flag)
+		{
+			cout << "a.ä¿¡æ¯\n    1.åœ°å›¾\n    2.è§’è‰²\nb.è¡ŒåŠ¨\n    3.æ”»å‡»\n    4.ç§»åŠ¨\n    5.ä¼‘æ†©\n    6.æŠ€èƒ½\nc.å¡ç‰Œ\n    7.æŠ½å¡\n";
+			int act;
+			cin >> act;
+			switch (act)
+			{
+			case 1:
+				show_map();
+				cout << endl;
+				cout << "1ä¸ºé»Žé›¾\n2ä¸ºä¹ç« \n";
 				cout << sleep(1) << '\n';
 				break;
 			case 2:
