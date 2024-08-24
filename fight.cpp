@@ -100,8 +100,9 @@ int w2()
 	queue<int> que;
 	que.push(1);
 	que.push(2);
-	info[1] = character(1, 5, 5, 1);
-	info[2] = character(2, 4, 5, 2);
+	info[1] = character(3, 5, 5, 1);
+	info[2] = character(10, 4, 5, 2);
+	info[3] = character(11,4,6,2);
 	set<int>teamcount;
 	while (true)
 	{
@@ -154,7 +155,7 @@ int w2()
 			case 1:
 				show_map();
 				cout << endl;
-				cout << "1为黎雾\n2为九章\n";
+				cout << "1为忆源\n10为近卫甲\n11为近卫乙\n";
 				cout << sleep(1) << '\n';
 				break;
 			case 2:
